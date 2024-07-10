@@ -1,0 +1,68 @@
+name: Playwright Tests with Linting
+
+on:
+  push:
+    branches: [ main ]  # Remove 'master' if not needed
+  pull_request:
+    branches: [ main ]  # Remove 'master' if not needed
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Cache Dependencies (Consider adding)
+        uses: actions/cache@v3  # Consider caching
+        with:
+          path: ~/.npm && node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run TypeScript Linting
+        uses: actions/typescript-action@v1  # Use the TypeScript Action
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report- ${{ github.run_id }}  # Dynamic report path
+          path: playwright-report/
+          retention-days: 30
+
+# Note: This job assumes you have ESLint configured for TypeScript linting
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint  # Assuming you have an 'eslint' or 'eslint:ci' script in package.json
+
+# Optional: Upload linting report (modify as needed)
+# - name: Upload Linting Report
+#   uses: actions/upload-artifact@v4
+#   with:
+#     name: linting-report
+#     path: coverage/  # Modify path based on your ESLint output
+#     retention-days: 7

@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Super-Linter
-        uses: super-linter/action@v1
+        uses: super-linter/super-linter@v3.17.0
 #        with:
           # Customize linters if needed (optional)
           # linters: "ansible,shell,python"

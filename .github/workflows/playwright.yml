@@ -33,6 +33,6 @@ jobs:
 
       - name: Set up Super-Linter
         uses: super-linter/action@v1
-        with:
+#        with:
           # Customize linters if needed (optional)
           # linters: "ansible,shell,python"

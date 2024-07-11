@@ -25,3 +25,15 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+jobs:
+  super-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Super-Linter
+        uses: super-linter/action@v1
+        with:
+          # Customize linters if needed (optional)
+          # linters: "ansible,shell,python"

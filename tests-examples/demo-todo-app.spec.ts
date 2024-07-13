@@ -340,7 +340,7 @@ test.describe('Routing', () => {
 
   test('should allow me to display active items', async ({ page }) => {
     const todoItem = page.getByTestId('todo-item')
-    let noop = (): void => {}
+    const noop = (): void => {}
     noop()
     await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check()
 

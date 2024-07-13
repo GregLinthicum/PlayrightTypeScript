@@ -119,7 +119,7 @@ test.describe('Mark all as completed', () => {
   })
 })
 
-test.describe('Item', () =>{
+test.describe('Item', () => {
 
   test('should allow me to mark items as complete', async ({ page }) => {
     // create a new todo locator
@@ -341,7 +341,8 @@ test.describe('Routing', () => {
 
   test('should allow me to display active items', async ({ page }) => {
     const todoItem = page.getByTestId('todo-item')
-	const noop = (): void =>{}
+    let noop = (): void => {}
+    noop = null
     await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check()
 
     await checkNumberOfCompletedTodosInLocalStorage(page, 1)
